@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      database: local
+      host: localhost
+      port: '27017'
+logging:
+  level:
+    org.springframework.web: WARN
+    br.com.ever.project: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: /logs/application.log

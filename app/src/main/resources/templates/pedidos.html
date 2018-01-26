@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Fast Food</title>
+<link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet" />
+</head>
+<body>
+
+<div id="main" class="container">
+
+	<h3 class="page-header">Realize seu pedido</h3>
+	
+	<div th:switch="${message}">
+        <div th:case="'Success'" class="alert alert-success">
+                <strong>Sucesso! </strong> Pedido atendido com sucesso.
+        </div>
+        <div th:case="'Failed'" class="alert alert-danger">
+                <strong>Erro! </strong> Não foi possível efetuar o pedido.
+        </div>
+
+	</div>
+
+		<form id="orderForm" data-toggle="validator" action="/fast-food/pedidos/salvar" th:object="${order}" method="post">
+		<div class="form-group">
+				<div class="form-group col-6">
+					<label class="col-6 col-form-label">Lanche</label> 
+					<select class="form-control"
+						name="snack" th:field="*{idSnack}">
+						<option th:value="''" th:text="'Selecione o lanche'"></option>
+						<option th:each="snack : ${order.snacks}"
+							th:value="${snack.id}" th:text="${snack.name}"  selected="selected"/>
+					</select>
+					<div th:switch="${message}"> 
+					  <p class="error text-danger" th:case="'SnackEmpty'">Escolha um lanche.</p> 
+					</div>
+				</div>
+				<div class="form-group col-6">
+					<label class="col-6 col-form-label">Adiocionais</label>
+					<select class="form-control"
+						name="ingredient" th:field="*{idIngredient}">
+						<option th:value="''" th:text="'Selecione um adicional'"></option>
+						<option th:each="ingredient : ${order.ingredients}"
+							th:value="${ingredient.id}" th:text="${ingredient.name}"  selected="selected" />
+					</select>
+				</div>
+				  <div class="form-group col-6">
+				  	<label for="example-number-input" class="col-2 col-form-label">Number</label>
+				    <input class="form-control" type="number" value="0" id="example-number-input"/>
+				  </div>
+			</div>
+				<button type="submit" class="btn btn-success">Comprar</button>
+		</form>
+	</div>
+	
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="/webjars/bootstrap/3.3.7/css/bootstrap.min.js"></script>
+	
+	<script>
+	$(document).ready(function() {
+		  $(".orderForm").validate({
+	          rules: {
+	        	  snack: {
+	              required: true
+	            },
+	          messages: {
+	        	  snack: {
+	              required: 'resssssssssssss'
+	            },
+	          highlight: function(element) {
+	            $(element).closest('.form-group').addClass('has-error');
+	          },
+	          unhighlight: function(element) {
+	            $(element).closest('.form-group').removeClass('has-error');
+	          }
+	        });
+	      });
+	});
+</script>
+
+</body>
+</html>
